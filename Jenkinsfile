@@ -1,7 +1,7 @@
 podTemplate(containers: [
     containerTemplate(
         name: 'jnlp', 
-        image: 'jenkins/inbound-agent:latest'
+        image: 'hashicorp/packer'
         )
   ]) {
 
