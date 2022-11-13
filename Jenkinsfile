@@ -1,22 +1,9 @@
-properties(
-        [buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '14')),[$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
-        parameters([
-                    string(defaultValue: "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-*", description: 'Official kops image filter?', name: 'BASE_AMI_FILTER'),
-                    string(defaultValue: "k8s-1.18-ubuntu-focal-20.04-amd64-hvm-ebs", description: 'KOPS image prefix? (leave default unless Amazon change naming convention)', name: 'PREFIX'),
-                    string(defaultValue: "mds-ccc", description: 'KOPS image postfix?', name: 'POSTFIX'),
-                    string(defaultValue: "ubuntu", description: 'SSH User on Base AMI (Debian: admin, Ubuntu: ubuntu)?', name: 'BASE_AMI_USER'),
-                    password(defaultValue: 'SECRET', description: 'enter temporary AWS_ACCESS_KEY_ID', name: 'AWS_ACCESS_KEY_ID'),
-                    password(defaultValue: 'SECRET', description: 'enter temporary AWS_SECRET_ACCESS_KEY', name: 'AWS_SECRET_ACCESS_KEY'),
-                    password(defaultValue: 'SECRET', description: 'enter temporary AWS_SESSION_TOKEN', name: 'AWS_SESSION_TOKEN'),
-                    booleanParam(name: 'APPARMOR', defaultValue: false, description: 'install AppArmor?'),
-            ])
-        ])
 
         String nodeLabel = UUID.randomUUID().toString()
         echo "Unique node label ${nodeLabel}"
 
-        podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "node1")], serviceAccount: 'jenkins-agents-serviceaccount', containers: [
-        containerTemplate(name: 'packer', image: 'image', ttyEnabled: true, command: 'cat')
+        podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins-agents', containers: [
+        containerTemplate(name: 'packer', image: 'devopspln/kops:v3', ttyEnabled: true, command: 'cat')
     ]) {
 
         node(nodeLabel) {
