@@ -16,7 +16,7 @@ podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.co
   ami_name                    = "packer"
   assume_role {
         role_arn     = "arn:aws:iam::507216733449:role/Packer"
-        policy_arns     = "arn:aws:iam::507216733449:policy/assumerole"
+        policy     = "arn:aws:iam::507216733449:policy/assumerole"
         session_name = "Packer"
     }
   associate_public_ip_address = "true"
