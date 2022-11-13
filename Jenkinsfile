@@ -80,7 +80,7 @@ EOF
                         then
                             packer_ami_id=$(cat packer.log | egrep "artifact,0,id" | rev | cut -f1 -d, | rev |cut -f 2 -d ":")
                             echo "\nNewly created AMI ID: $packer_ami_id"
-                            echo "\nPlease remember to spread it all AWS Accounts with lambda: share_and_encrypt from account AWS-0004!"
+                            echo "\nPlease remember to spread it all AWS Accounts with lambda: share_and_encrypt from account !"
                             exit 0
                         else
                             echo "\n!!! Error during Packer execution !!!"
