@@ -1,13 +1,13 @@
 podTemplate(containers: [
     containerTemplate(
-        name: 'jnlp', 
-        image: 'hashicorp/packer'
+        name: 'packer', 
+        image: 'devopspln/kops:v3'
         )
   ]) {
 
     node(POD_LABEL) {
-        stage('Get a Maven project') {
-            container('jnlp') {
+        stage('Packer') {
+            container('packer') {
                 stage('Shell Execution') {
                     sh '''
                     echo "Hello! I am executing shell
