@@ -1,13 +1,10 @@
-
-        String nodeLabel = UUID.randomUUID().toString()
-        echo "Unique node label ${nodeLabel}"
-
-        podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins', containers: [
+String nodeLabel = UUID.randomUUID().toString()
+echo "Unique node label ${nodeLabel}"
+podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins', containers: [
         containerTemplate(name: 'packer', image: 'devopspln/kops:v3', ttyEnabled: true, command: 'cat')
     ]) {
 
         node(nodeLabel) {
-        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
             stage('Preparing Kops AMI') {
                 container('packer') {
                     checkout scm
@@ -76,8 +73,6 @@ EOF
                     ''')
 
                 }
-            }
-
-          }
+            }       
     }
 }
