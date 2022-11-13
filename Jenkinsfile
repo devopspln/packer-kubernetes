@@ -2,7 +2,7 @@
         String nodeLabel = UUID.randomUUID().toString()
         echo "Unique node label ${nodeLabel}"
 
-        podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins-agents', containers: [
+        podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins', containers: [
         containerTemplate(name: 'packer', image: 'devopspln/kops:v3', ttyEnabled: true, command: 'cat')
     ]) {
 
