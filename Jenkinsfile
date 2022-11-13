@@ -1,7 +1,7 @@
 String nodeLabel = UUID.randomUUID().toString()
 echo "Unique node label ${nodeLabel}"
 podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.com/role", value: "ip-172-20-33-161.ec2.internal")], serviceAccount: 'jenkins', containers: [
-        containerTemplate(name: 'packer', image: 'devopspln/kops:v3', ttyEnabled: true, command: 'cat')
+        containerTemplate(name: 'packer', image: 'devopspln/kops:v4', ttyEnabled: true, command: 'cat')
     ]) {
 
         node(nodeLabel) {
@@ -10,7 +10,7 @@ podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.co
                     checkout scm
                     sh ('''#!/bin/bash
                     set -o pipefail
-                    aws sts assume-role --role-arn arn:aws:iam::507216733449:role/Packer --duration-seconds 3600 --role-session-name "Packer" > assume-role-output.txt
+                       aws sts assume-role --role-arn arn:aws:iam::507216733449:role/Packer --duration-seconds 3600 --role-session-name "Packer" > assume-role-output.txt
                         export AWS_ACCESS_KEY_ID=`cat assume-role-output.txt | jq -c '.Credentials.AccessKeyId' | tr -d '"' | tr -d ' '`
                         export AWS_SECRET_ACCESS_KEY=`cat assume-role-output.txt | jq -c '.Credentials.SecretAccessKey' | tr -d '"' | tr -d ' '`
                         export AWS_SESSION_TOKEN=`cat assume-role-output.txt | jq -c '.Credentials.SessionToken' | tr -d '"' | tr -d ' '`
