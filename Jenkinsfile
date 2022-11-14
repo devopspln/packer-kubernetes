@@ -14,6 +14,8 @@ podTemplate(label: nodeLabel, annotations: [podAnnotation(key: "iam.amazonaws.co
                         export AWS_ACCESS_KEY_ID=`cat assume-role-output.txt | jq -c '.Credentials.AccessKeyId' | tr -d '"' | tr -d ' '`
                         export AWS_SECRET_ACCESS_KEY=`cat assume-role-output.txt | jq -c '.Credentials.SecretAccessKey' | tr -d '"' | tr -d ' '`
                         export AWS_SESSION_TOKEN=`cat assume-role-output.txt | jq -c '.Credentials.SessionToken' | tr -d '"' | tr -d ' '`
+                       iamrole = `aws iam list-instance-profiles | jq -r '.InstanceProfiles[].Roles[].Arn'`
+                       echo $iamrole
                     cat <<EOF >>packer2.json.pkr.hcl
                     
 
